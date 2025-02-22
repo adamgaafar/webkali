@@ -359,11 +359,12 @@
     
     .results {
         margin: 0;
-        margin-top: 10px;
+        margin-top: 5px;
         padding: 0;
         display: flex;
+        flex-wrap: wrap;
         flex-direction: column;
-        gap: 10px;
+        gap: 5px;
     }
     
     .terminal-output p {

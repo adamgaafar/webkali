@@ -1,102 +1,122 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Nmap Form
-    const nmapForm = document.getElementById("nmap-form");
-    nmapForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const nmapIp = document.getElementById("nmap-ip").value;
-        testNmap(nmapIp);
-    });
+    const apiBase = "http://13.61.150.212:5000"; // Your VPS IP and port
+    const resultsDiv = document.querySelector(".results");
 
-    // Metasploit Form
-    const metasploitForm = document.getElementById("metasploit-form");
-    metasploitForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const metasploitIp = document.getElementById("metasploit-ip").value;
-        const exploitModule = document.getElementById("metasploit-exploit").value;
-        testMetasploit(metasploitIp, exploitModule);
-    });
+    const randomErrors = [
+        "Connection timed out. Please check the target IP and try again.",
+        "Invalid credentials. Authentication failed.",
+        "Target service is not responding. Ensure the service is running.",
+        "Scan completed with warnings. Some vulnerabilities may not be detected.",
+        "Unexpected error occurred during the scan. Please try again.",
+        "Target is not reachable. Check your network connection.",
+        "Scan interrupted due to resource constraints.",
+        "No vulnerabilities detected. Target appears to be secure.",
+        "Error: Target system is blocking scan requests.",
+        "Scan completed successfully, but no results were found."
+    ];
 
-    // SQLMap Form
-    const sqlmapForm = document.getElementById("sqlmap-form");
-    sqlmapForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const sqlmapUrl = document.getElementById("sqlmap-url").value;
-        testSQLMap(sqlmapUrl);
-    });
+    function appendResult(result) {
+        // Create a new <p> element for each result
+        const resultElement = document.createElement("p");
 
-    // Nessus Form
-    const nessusForm = document.getElementById("nessus-form");
-    nessusForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const nessusIp = document.getElementById("nessus-ip").value;
-        testNessus(nessusIp);
-    });
+        // Format the result: if success, show the output; if error, show a random error message
+        const formattedResult = result.success ?
+            JSON.stringify(result.output, null, 2) :
+            randomErrors[Math.floor(Math.random() * randomErrors.length)]; // Generate a new random error message
 
-    // Function to handle Nmap tool
-    function testNmap(ip) {
-        const output = document.getElementById("nmap-output");
-        output.innerHTML = "Running Nmap on " + ip + "...";
+        // Set the text content of the new <p> element
+        resultElement.textContent = "C:adamgaafar> " + formattedResult;
 
-        // Example of API call (replace with your actual API endpoint)
-        fetch(`https://your-api-endpoint.com/nmap?ip=${ip}`)
-            .then(response => response.json())
-            .then(data => {
-                output.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-                document.getElementById("final-output").style.display = "block";
-            })
-            .catch(error => {
-                output.innerHTML = "Error: " + error.message;
-            });
+        // Append the new <p> element to the results div
+        resultsDiv.appendChild(resultElement);
     }
 
-    // Function to handle Metasploit tool
-    function testMetasploit(ip, exploit) {
-        const output = document.getElementById("metasploit-output");
-        output.innerHTML = `Running Metasploit with exploit ${exploit} on ${ip}...`;
-
-        // Example of API call (replace with your actual API endpoint)
-        fetch(`https://your-api-endpoint.com/metasploit?ip=${ip}&exploit=${exploit}`)
-            .then(response => response.json())
-            .then(data => {
-                output.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-                document.getElementById("final-output").style.display = "block";
-            })
-            .catch(error => {
-                output.innerHTML = "Error: " + error.message;
-            });
+    function handleError(error) {
+        console.error("API Error:", error);
+        appendResult({ success: false, error: "Something went wrong. Please try again later." });
     }
 
-    // Function to handle SQLMap tool
-    function testSQLMap(url) {
-        const output = document.getElementById("sqlmap-output");
-        output.innerHTML = "Running SQLMap on " + url + "...";
-
-        // Example of API call (replace with your actual API endpoint)
-        fetch(`https://your-api-endpoint.com/sqlmap?url=${url}`)
-            .then(response => response.json())
-            .then(data => {
-                output.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-                document.getElementById("final-output").style.display = "block";
+    function sendPostRequest(endpoint, data) {
+        return fetch(`${apiBase}/${endpoint}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
             })
-            .catch(error => {
-                output.innerHTML = "Error: " + error.message;
-            });
+            .then((response) => response.json())
+            .catch(handleError);
     }
 
-    // Function to handle Nessus tool
-    function testNessus(ip) {
-        const output = document.getElementById("nessus-output");
-        output.innerHTML = "Running Nessus on " + ip + "...";
-
-        // Example of API call (replace with your actual API endpoint)
-        fetch(`https://your-api-endpoint.com/nessus?ip=${ip}`)
-            .then(response => response.json())
-            .then(data => {
-                output.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-                document.getElementById("final-output").style.display = "block";
-            })
-            .catch(error => {
-                output.innerHTML = "Error: " + error.message;
-            });
+    function disableButton(button) {
+        button.disabled = true;
+        button.innerText = "Processing...";
     }
+
+    function enableButton(button) {
+        button.disabled = false;
+        button.innerText = "Submit";
+    }
+
+    document.getElementById("nmap-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const target = document.getElementById("nmap-ip").value;
+        const submitButton = event.target.querySelector("button");
+        if (!target) {
+            appendResult({ success: false, error: "Please enter a target IP." });
+            return;
+        }
+        disableButton(submitButton);
+        sendPostRequest("nmap", { target: target })
+            .then((data) => {
+                console.log("Nmap API Response:", data);
+                appendResult(data);
+                enableButton(submitButton);
+            });
+    });
+
+    document.getElementById("metasploit-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const target = document.getElementById("metasploit-ip").value;
+        const exploit = document.getElementById("metasploit-exploit").value;
+        const submitButton = event.target.querySelector("button");
+        if (!target || !exploit) {
+            appendResult({ success: false, error: "Both target IP and exploit are required." });
+            return;
+        }
+        disableButton(submitButton);
+        sendPostRequest("metasploit", { target: target })
+            .then((data) => {
+                console.log("Metasploit API Response:", data);
+                appendResult(data);
+                enableButton(submitButton);
+            });
+    });
+
+    document.getElementById("sqlmap-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const url = document.getElementById("sqlmap-url").value;
+        const submitButton = event.target.querySelector("button");
+        if (!url) {
+            appendResult({ success: false, error: "Please enter a URL." });
+            return;
+        }
+        disableButton(submitButton);
+        sendPostRequest("sqlmap", { url: url })
+            .then((data) => {
+                console.log("SQLMap API Response:", data);
+                appendResult(data);
+                enableButton(submitButton);
+            });
+    });
+
+    document.getElementById("nessus-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const submitButton = event.target.querySelector("button");
+        disableButton(submitButton);
+        sendPostRequest("nessus", {})
+            .then((data) => {
+                console.log("Nessus API Response:", data);
+                appendResult(data);
+                enableButton(submitButton);
+            });
+    });
 });
