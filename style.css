@@ -1,0 +1,373 @@
+    body {
+        display: flex;
+        flex-direction: column;
+        background: radial-gradient(circle, #1A403A, #00201D);
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+        margin: 0;
+        justify-content: center;
+    }
+    
+    hr {
+        display: none;
+    }
+    
+    * {
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0;
+    }
+    
+    .header {
+        color: rgb(255, 255, 255);
+        text-align: center;
+        font-weight: bold;
+        padding: 20px;
+        font-size: 2rem;
+    }
+    
+    .tool-container {
+        display: flex;
+        justify-content: space-around;
+        padding: 40px;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .tool-card {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        width: 300px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        padding: 20px;
+    }
+    
+    .tool-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .tool-card p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    
+    .tool-card button {
+        margin: 20px;
+        padding: 10px 20px;
+        background-color: #257446;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .tool-card button:hover {
+        background-color: #555;
+    }
+    /* Hover effect */
+    
+    .tool-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .metasploit-card {
+        display: flex;
+        flex-direction: column;
+        padding: 60px;
+        background-color: #1e2a47;
+        /* Dark blue background for Metasploit */
+        border: 1px solid #4e5a78;
+        /* Lighter blue border */
+        transition: transform 0.3s, box-shadow 0.3s;
+        color: #fff;
+    }
+    
+    .metasploit-card input {
+        background-color: #2d3b56;
+        /* Dark input background */
+        color: #fff;
+        border: 1px solid #4e5a78;
+        border-radius: 8px;
+        padding: 12px;
+        width: 100%;
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    .metasploit-card button {
+        padding: 12px 25px;
+        background-color: #ff5733;
+        /* Metasploit red color */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-color 0.3s;
+    }
+    
+    .metasploit-card form {
+        display: flex;
+        text-align: start;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .metasploit-card h3 {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        color: #ffdd57;
+        /* Yellow color for emphasis */
+    }
+    
+    .metasploit-card label {
+        text-align: left;
+        /* Ensure left alignment */
+        margin-bottom: 5px;
+        font-size: 1rem;
+    }
+    
+    .metasploit-card button:hover {
+        background-color: #ce3b1a;
+    }
+    
+    .nmap-card {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background-color: #212121;
+        border: 1px solid #5c5c5c;
+        border-radius: 8px;
+        padding: 30px;
+        width: 300px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        color: #fff;
+    }
+    
+    .nmap-card h3 {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        color: #8bc34a;
+        /* Nmap green color */
+    }
+    
+    .nmap-card label {
+        text-align: left;
+        margin-bottom: 5px;
+        font-size: 1rem;
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    .nmap-card p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    
+    .nmap-card input {
+        background-color: #333;
+        /* Dark background for input fields */
+        color: #fff;
+        border: 1px solid #8bc34a;
+        /* Nmap green border */
+        border-radius: 8px;
+        padding: 12px;
+        width: 100%;
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    .nmap-card button {
+        padding: 12px 25px;
+        background-color: #4caf50;
+        /* Green button for Nmap */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-color 0.3s;
+    }
+    
+    .nmap-card button:hover {
+        background-color: #388e3c;
+        /* Darker green on hover */
+    }
+    
+    .sqlmap-card {
+        background-color: #e3f2fd;
+        /* Light blue background */
+        border: 1px solid #81d4fa;
+        /* Light blue border */
+        border-radius: 8px;
+        padding: 25px;
+        width: 300px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        color: #1c313a;
+        /* Darker text color */
+    }
+    
+    .sqlmap-card h3 {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        color: #0288d1;
+        /* Blue color for the title */
+    }
+    
+    .sqlmap-card p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+        color: #0277bd;
+        /* Darker blue for paragraph text */
+    }
+    
+    .sqlmap-card label {
+        text-align: left;
+        margin-bottom: 5px;
+        font-size: 1rem;
+        display: block;
+        color: #0288d1;
+        /* Blue color for labels */
+    }
+    
+    .sqlmap-card input {
+        margin-top: 20px;
+        background-color: #547575;
+        border: 1px solid #81d4fa;
+        /* Light blue border */
+        border-radius: 8px;
+        padding: 12px;
+        width: 80%;
+        font-size: 1rem;
+        margin-bottom: 15px;
+        transition: border-color 0.3s;
+    }
+    
+    .sqlmap-card input::placeholder {
+        color: #d1d1d1;
+        /* Change this to your desired color */
+    }
+    
+    .sqlmap-card input:focus {
+        border-color: #0288d1;
+        /* Change border color on focus */
+    }
+    
+    .sqlmap-card button {
+        padding: 12px 25px;
+        background-color: #0288d1;
+        /* Primary blue color for the button */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-color 0.3s;
+    }
+    
+    .sqlmap-card button:hover {
+        background-color: #0277bd;
+        /* Darker blue on hover */
+    }
+    
+    .sqlmap-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    /* Nessus Card */
+    
+    .nessus-card {
+        background-color: #3c0000;
+        border: 1px solid #cc0000;
+        border-radius: 8px;
+        padding: 25px;
+        width: 300px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        color: white;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .nessus-card h3 {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        color: #ff1a1a;
+    }
+    
+    .nessus-card input {
+        background-color: #302e2e;
+        color: #fff;
+        border: 1px solid #cc0000;
+        border-radius: 8px;
+        padding: 12px;
+        margin-top: 20px;
+        width: 70%;
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    .nessus-card button {
+        padding: 12px 25px;
+        background-color: #cc0000;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-color 0.3s;
+    }
+    
+    .nessus-card label {
+        text-align: left;
+        margin-bottom: 5px;
+        font-size: 1rem;
+        display: block;
+        color: #ffffff;
+    }
+    
+    .nessus-card button:hover {
+        background-color: #ff3232;
+    }
+    /* Terminal output styling */
+    
+    .terminal-output {
+        display: flex;
+        flex-direction: column;
+        background-color: #111;
+        color: #00ff00;
+        font-family: 'Courier New', Courier, monospace;
+        padding: 20px;
+        border-radius: 8px;
+        height: 200px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        border: 1px solid #444;
+        gap: 0;
+        margin: 0;
+    }
+    
+    .results {
+        margin: 0;
+        margin-top: 10px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .terminal-output p {
+        margin: 0;
+        /* Remove margin from p elements */
+        color: #00ff00;
+    }

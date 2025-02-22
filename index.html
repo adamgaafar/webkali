@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kali Penetrastion Testing tools</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        Kali Linux Web Tools
+    </div>
+    <div class="tool-container">
+        <!-- Nmap Tool Card -->
+        <div class="tool-card nmap-card">
+            <h3>Nmap</h3>
+            <p>Scan a target for open ports and services.</p>
+            <form id="nmap-form">
+                <label for="nmap-ip">Target IP:</label>
+                <input type="text" id="nmap-ip" placeholder="Enter target IP" required />
+                <button type="submit">Test Nmap</button>
+            </form>
+            <div id="nmap-output"></div>
+        </div>
+
+        <!-- Metasploit Tool Card -->
+        <div class="tool-card metasploit-card">
+            <h3>Metasploit</h3>
+            <p>Run an exploit on a target system.</p>
+
+            <form id="metasploit-form">
+                <label for="metasploit-ip">Target IP:</label>
+                <input type="text" id="metasploit-ip" placeholder="Enter target IP" required />
+                <label for="metasploit-exploit">Exploit Module:</label>
+                <input type="text" id="metasploit-exploit" placeholder="Enter exploit module" required />
+                <button type="submit">Test Metasploit</button>
+            </form>
+
+            <div id="metasploit-output"></div>
+        </div>
+        <!-- SQLMap Tool Card -->
+        <div class="tool-card sqlmap-card">
+            <h3>SQLMap</h3>
+            <p>Test a website for SQL injection vulnerabilities.</p>
+            <form id="sqlmap-form">
+                <label for="sqlmap-url">Target URL:</label>
+                <input type="text" id="sqlmap-url" placeholder="Enter target URL" required />
+                <button type="submit">Test SQLMap</button>
+            </form>
+            <div id="sqlmap-output"></div>
+        </div>
+        <!-- Nessus Tool Card -->
+        <div class="tool-card nessus-card">
+            <h3>Nessus</h3>
+            <p>Scan a target for vulnerabilities using Nessus.</p>
+            <form id="nessus-form">
+                <label for="nessus-ip">Target IP:</label>
+                <input type="text" id="nessus-ip" placeholder="Enter target IP" required />
+                <button type="submit">Test Nessus</button>
+            </form>
+            <div id="nessus-output"></div>
+        </div>
+    </div>
+
+    <!-- Terminal Output Section for all tools -->
+    <div id="final-output" class="terminal-output">
+        <!-- This is where the final output will be displayed -->
+        <p>All tool results will be shown here:</p>
+        <div class="results">
+            <p>C:Users></p>
+            <p>C:Users></p>
+            <p>C:Users></p>
+            <p>C:Users></p>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>
