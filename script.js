@@ -16,18 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     function appendResult(result) {
-        // Create a new <p> element for each result
         const resultElement = document.createElement("p");
-
-        // Format the result: if success, show the output; if error, show a random error message
         const formattedResult = result.success ?
             JSON.stringify(result.output, null, 2) :
-            randomErrors[Math.floor(Math.random() * randomErrors.length)]; // Generate a new random error message
+            randomErrors[Math.floor(Math.random() * randomErrors.length)];
 
-        // Set the text content of the new <p> element
         resultElement.textContent = "C:adamgaafar> " + formattedResult;
-
-        // Append the new <p> element to the results div
         resultsDiv.appendChild(resultElement);
     }
 
@@ -41,32 +35,39 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
-            })
-            .then((response) => response.json())
+            }).then(response => response.json())
             .catch(handleError);
     }
 
-    function disableButton(button) {
-        button.disabled = true;
-        button.innerText = "Processing...";
+    function sendGetRequest(endpoint) {
+        return fetch(`${apiBase}/${endpoint}`)
+            .then(response => response.json())
+            .catch(handleError);
     }
 
-    function enableButton(button) {
+    function disableButton(button, text = "Processing...") {
+        button.disabled = true;
+        button.innerText = text;
+    }
+
+    function enableButton(button, text = "Submit") {
         button.disabled = false;
-        button.innerText = "Submit";
+        button.innerText = text;
     }
 
     document.getElementById("nmap-form").addEventListener("submit", function(event) {
         event.preventDefault();
         const target = document.getElementById("nmap-ip").value;
         const submitButton = event.target.querySelector("button");
+
         if (!target) {
             appendResult({ success: false, error: "Please enter a target IP." });
             return;
         }
-        disableButton(submitButton);
-        sendPostRequest("nmap", { target: target })
-            .then((data) => {
+
+        disableButton(submitButton, "Scanning...");
+        sendPostRequest("nmap", { target })
+            .then(data => {
                 console.log("Nmap API Response:", data);
                 appendResult(data);
                 enableButton(submitButton);
@@ -78,15 +79,17 @@ document.addEventListener("DOMContentLoaded", function() {
         const target = document.getElementById("metasploit-ip").value;
         const exploit = document.getElementById("metasploit-exploit").value;
         const submitButton = event.target.querySelector("button");
+
         if (!target || !exploit) {
             appendResult({ success: false, error: "Both target IP and exploit are required." });
             return;
         }
-        disableButton(submitButton);
-        sendPostRequest("metasploit", { target: target })
-            .then((data) => {
+
+        disableButton(submitButton, "Exploiting...");
+        sendPostRequest("metasploit", { target, module: exploit })
+            .then(data => {
                 console.log("Metasploit API Response:", data);
-                appendResult(data);
+                appendResult(data.message);
                 enableButton(submitButton);
             });
     });
@@ -95,13 +98,15 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         const url = document.getElementById("sqlmap-url").value;
         const submitButton = event.target.querySelector("button");
+
         if (!url) {
             appendResult({ success: false, error: "Please enter a URL." });
             return;
         }
-        disableButton(submitButton);
-        sendPostRequest("sqlmap", { url: url })
-            .then((data) => {
+
+        disableButton(submitButton, "Scanning for SQL vulnerabilities...");
+        sendPostRequest("sqlmap", { url })
+            .then(data => {
                 console.log("SQLMap API Response:", data);
                 appendResult(data);
                 enableButton(submitButton);
@@ -110,13 +115,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("nessus-form").addEventListener("submit", function(event) {
         event.preventDefault();
+        const scanId = document.getElementById("nessus-ip").value;
         const submitButton = event.target.querySelector("button");
-        disableButton(submitButton);
-        sendPostRequest("nessus", {})
-            .then((data) => {
-                console.log("Nessus API Response:", data);
-                appendResult(data);
-                enableButton(submitButton);
+
+        if (!scanId) {
+            appendResult({ success: false, error: "Please enter a Nessus scan ID." });
+            return;
+        }
+
+        disableButton(submitButton, "Starting scan...");
+
+        sendPostRequest("start_scan", { scan_id: scanId })
+            .then(startResponse => {
+                console.log("Nessus Start Scan Response:", startResponse);
+                appendResult({ success: true, output: "Nessus scan started successfully." });
+
+                setTimeout(() => {
+                    sendGetRequest(`scan_results/${scanId}`)
+                        .then(resultsResponse => {
+                            console.log("Nessus Scan Results:", resultsResponse);
+                            appendResult({ success: true, output: resultsResponse });
+                            enableButton(submitButton, "Start Scan");
+                        });
+                }, 10000); // Adjust delay based on expected scan time
             });
     });
 });
